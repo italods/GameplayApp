@@ -10,7 +10,7 @@ import { ButtonIcon } from '../../components/ButtonIcon';
 import IllustrationImg from '../../assets/illustration.png';
 import { styles } from './styles';
 
-export function SingIn(){
+export function SignIn(){
   return(
     <View style={styles.container}>
       
