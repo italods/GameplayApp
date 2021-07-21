@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { Appointment } from '../../components/Appointment';
+import { View, FlatList } from 'react-native';
 
-import { ButtonAdd } from '../../components/ButtonAdd';
 import { CategorySelect } from '../../components/CategorySelect';
+import { Appointment } from '../../components/Appointment';
+import { ListDivider } from '../../components/ListDivider';
 import { ListHeader } from '../../components/ListHeader';
+import { ButtonAdd } from '../../components/ButtonAdd';
 import { Profile } from '../../components/Profile';
 
 import { styles } from './styles';
 
-export function Home(){
+export function Home() {
   const [category, setCategory] = useState('');
 
   const appointments = [
@@ -37,20 +38,19 @@ export function Home(){
       date: '22/06 às 20:40h',
       description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'      
     },
+    
   ]
-  
-  function handleCategorySelect(categoryId: string){
+  function handleCategorySelect(categoryId: string) {
     categoryId === category ? setCategory('') : setCategory(categoryId);
-  }
+  }  
 
-  return(
-  <View>
-    <View style={styles.header}>
-      <Profile />
-      <ButtonAdd />
-    </View>
-
+  return (
     <View>
+      <View style={styles.header}>
+        <Profile />
+        <ButtonAdd />
+      </View>
+    
       <CategorySelect 
         categorySelected={category}
         setCategory={handleCategorySelect}
@@ -62,19 +62,22 @@ export function Home(){
           subtitle="Total 6"
         />
 
+
+
+
+
+
         <FlatList 
-          data={appointments}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <Appointment data={item}/> 
+            data={appointments}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+            <Appointment data={item}/>            
           )}
+          ItemSeparatorComponent={() => <ListDivider />}
           style={styles.matches}
           showsVerticalScrollIndicator={false}
         />
-
       </View>
     </View>
-  </View>
-
-  );
+  );  
 }
