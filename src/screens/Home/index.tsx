@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, FlatList, Text } from 'react-native';
+import { Appointment } from '../../components/Appointment';
 
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { CategorySelect } from '../../components/CategorySelect';
@@ -53,7 +54,7 @@ export function Home(){
           data={appointments}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Text>{item.guild.name}</Text>
+            <Appointment data={item}/> 
           )}
         />
 
