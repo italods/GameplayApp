@@ -37,7 +37,7 @@ export function SignIn(){
             e organize suas {`\n`}
             jogatinas
           </Text>
-        </View>
+        
 
         <Text style={styles.subtitle}>
           Crie grupos para jogar seus games {`\n`}
@@ -48,7 +48,7 @@ export function SignIn(){
           title="Entrar com Discord"
           onPress={handleSignIn}
         />
-
+</View>
       </View>
     </Background>
   )
