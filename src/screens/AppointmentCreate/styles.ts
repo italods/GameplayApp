@@ -58,6 +58,8 @@ export const styles = StyleSheet.create({
     color: theme.colors.highlight,
   },
   footer:{
-    
+    marginVertical: 20,
+    marginBottom: 56
+
   }
 });
