@@ -36,7 +36,7 @@ export function Category({
           {
             hasCheckBox &&
             <View style={
-            checked ? styles.checked : styles.check
+              checked ? styles.checked : styles.check
             }/>
           }
 

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    color: theme.colors.overlay,
+    backgroundColor: theme.colors.overlay,
   },
   bar:{
     width: 39,
