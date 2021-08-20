@@ -29,14 +29,15 @@ export default function App() {
     // Tudo esta dentro dos seguintes simbolos "<> </>" se torna uma unica tela por exigencia da linguagem.
     <Background> 
       <StatusBar 
-          barStyle="light-content"
-          backgroundColor="transparent"
-        translucent
-          
-        />
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent    
+      />
+
       <AuthProvider>
         <Routes />
       </AuthProvider>
+      
     </Background>
   );
 }
