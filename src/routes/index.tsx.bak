@@ -11,6 +11,7 @@ export function Routes(){
   return(
     <NavigationContainer>
       { user.id ? <AuthRoutes /> : <SignIn /> }
+      {/* Se tem usuario logado vai pro AuthRoutes caso contrario tela de login */}
     </NavigationContainer>
   )
 }
