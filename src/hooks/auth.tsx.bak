@@ -33,7 +33,7 @@ type AuthContextData = {
 }
 
 type AuthProviderProps = {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 type AuthorizationResponse = AuthSession.AuthSessionResult & {

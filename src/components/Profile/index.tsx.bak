@@ -19,7 +19,7 @@ export function Profile(){
             Olá,
           </Text>
           <Text style={styles.username}>
-            {user.firstName}
+            {user.fristName}
           </Text>
         </View>
         
