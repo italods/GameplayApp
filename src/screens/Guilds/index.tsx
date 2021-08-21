@@ -6,7 +6,7 @@ import { Load } from '../../components/Load';
 import { ListDivider } from '../../components/ListDivider';
 
 import { styles } from './styles';
-import { api } from '../../services/api';
+import { api } from '../../service/api';
 
 type Props = {
   handleGuildSelect: (guild: GuildProps) => void;
@@ -35,11 +35,11 @@ export function Guilds({ handleGuildSelect }: Props){
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Guild 
-              data={item} 
+              data={item}
               onPress={() => handleGuildSelect(item)}
             />
-          )}    
-          showsVerticalScrollIndicator={false}
+          )}
+          showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={() => <ListDivider isCentered />}
           ListHeaderComponent={() => <ListDivider isCentered />}
           contentContainerStyle={{ paddingBottom: 68, paddingTop: 103 }}

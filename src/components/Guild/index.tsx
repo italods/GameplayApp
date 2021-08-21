@@ -1,10 +1,5 @@
 import React from 'react';
-import { 
-  TouchableOpacity, 
-  TouchableOpacityProps, 
-  Text, 
-  View 
-} from 'react-native';
+import { View, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { styles } from './styles';
@@ -22,6 +17,7 @@ type Props = TouchableOpacityProps & {
   data: GuildProps;
 }
 
+
 export function Guild({data, ...rest}: Props){
   return (
     <TouchableOpacity
@@ -29,7 +25,7 @@ export function Guild({data, ...rest}: Props){
       activeOpacity={0.7}
       {...rest}
     >
-        <GuildIcon guildId={data.id} iconId={data.icon} />
+      <GuildIcon guildId={data.id} iconId={data.icon}/>
 
       <View style={styles.content}>
         <View>

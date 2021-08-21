@@ -1,10 +1,8 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
 import { categories } from '../../utils/categories';
-
 import { Category } from '../Category';
 
 type Props = {
@@ -13,7 +11,7 @@ type Props = {
   hasCheckBox?: boolean;
 }
 
-export function CategorySelect({ 
+export function CategorySelect({
   categorySelected, 
   setCategory,
   hasCheckBox = false,
@@ -22,13 +20,13 @@ export function CategorySelect({
   return(
     <ScrollView
       horizontal
-      style={styles.container}  
-      showsHorizontalScrollIndicator={false}  
-      contentContainerStyle={{ paddingRight: 40 }}
+      style={styles.container}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{paddingRight: 40}}
     >
       {
         categories.map(category => (
-          <Category 
+          <Category
             key={category.id}
             title={category.title}
             icon={category.icon}
@@ -38,6 +36,7 @@ export function CategorySelect({
           />
         ))
       }
+
     </ScrollView>
-  );
-}
+  )
+};

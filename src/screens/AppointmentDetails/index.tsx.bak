@@ -44,7 +44,7 @@ export function AppointmentDetails() {
   const route = useRoute();
   const { guildSelected } = route.params as Params;
 
-  async function fetchGuildWidget() {
+  async function fetchGuildWidget(){
     try {
       const response = await api.get(`/guilds/${guildSelected.guild.id}/widget.json`);
       setWidget(response.data);
