@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { BorderlessButton } from 'react-native-gesture-handler'
-import { Fontisto } from '@expo/vector-icons';
-
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
-import { 
-  ImageBackground, 
-  Text, 
+import { Fontisto } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
+
+import {
+  ImageBackground,
+  Text,
   View,
   Alert,
-  FlatList
+  FlatList,
+  Share,
+  Platform
 } from 'react-native';
-
-import { styles } from './styles';
-import { api } from '../../service/api';
-import { theme } from '../../global/styles/theme';
 
 import BannerImg from '../../assets/banner.png';
 
+import { theme } from '../../global/styles/theme';
+import { api } from '../../services/api';
+import { styles } from './styles';
+
+import { AppointmentProps } from '../../components/Appointment';
+import { Member, MemberProps } from '../../components/Member';
+import { ListDivider } from '../../components/ListDivider';
 import { Background } from '../../components/Background';
 import { ListHeader } from '../../components/ListHeader';
-import { ListDivider } from '../../components/ListDivider';
 import { ButtonIcon } from '../../components/ButtonIcon';
 import { Header } from '../../components/Header';
-import { Member, MemberProps } from '../../components/Member';
-import { AppointmentProps } from '../../components/Appointment';
 import { Load } from '../../components/Load';
 
 type Params = {
@@ -49,22 +52,43 @@ export function AppointmentDetails() {
       const response = await api.get(`/guilds/${guildSelected.guild.id}/widget.json`);
       setWidget(response.data);
     } catch {
-      Alert.alert('Verifique as configurações do servidor. Será que o widget está habilitado ?');
+      /* 
+        UPDATE 5# 
+        Observação: Além de ativar o widget do servidor, escolha um canal pra convite pois por padrão 
+        estava como sem canal e, dessa forma, o instant_invite pode vir como null mesmo para o servidor. 
+        Setando um canal qualquer e resetando a aplicação resolve o problema do instant_invite ir como null.
+      */
+      Alert.alert('Verifique as configurações do servidor. Será que o Widget está habilitado?');
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect (() => {
-    fetchGuildWidget();
-  },[]);
+  function handleShareInvitation() {
+    const message = Platform.OS === 'ios'
+      ? `Junte-se a ${guildSelected.guild.name}`
+      : widget.instant_invite;
 
-  return(
+    Share.share({
+      message,
+      url: widget.instant_invite
+    });
+  }
+
+  function handleOpenGuild() {
+    Linking.openURL(widget.instant_invite);
+  }
+
+  useEffect(() => {
+    fetchGuildWidget();
+  }, []);
+  return (
     <Background>
       <Header
         title="Detalhes"
         action={
-          <BorderlessButton>
+          guildSelected.guild.owner &&
+          <BorderlessButton onPress={handleShareInvitation}>
             <Fontisto
               name="share"
               size={24}
@@ -74,46 +98,58 @@ export function AppointmentDetails() {
         }
       />
 
-      <ImageBackground 
+      <ImageBackground
         source={BannerImg}
         style={styles.banner}
       >
         <View style={styles.bannerContent}>
           <Text style={styles.title}>
-            { guildSelected.guild.name }
-          </Text>  
+            {guildSelected.guild.name}
+          </Text>
+
           <Text style={styles.subtitle}>
-            { guildSelected.description }
+            {guildSelected.description}
           </Text>
         </View>
       </ImageBackground>
 
       {
-        
         loading ? <Load /> :
-        <>
-          <ListHeader 
-            title="Jogadores"
-            subtitle={`Total ${widget.members.length}`}
-          />
-
-          <FlatList
-            data={widget.members}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <Member data={item}/>
-            )}
-            ItemSeparatorComponent={()=> <ListDivider isCentered />}
-            style={styles.members}
-          />
-        </>
+          <>
+            <ListHeader
+              title="Jogadores"
+              subtitle={`Total ${widget.members.length ? widget.members.length : 0}`}
+            />
+            {
+              <FlatList
+                data={widget.members ? widget.members : []} // UPDATE 1# Bom cuidar aqui, caso não encontre um Widget automaticamente não haverá membros.
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  <Member data={item} />
+                )}
+                ItemSeparatorComponent={() => <ListDivider isCentered />}
+                style={styles.members}
+                ListEmptyComponent={() => ( // UPDATE 2#  Um propriedade para renderizar algo quando a lista e vázia.
+                  <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>
+                      Não há ninguém online agora.
+                    </Text>
+                  </View>
+                )}
+              />
+            }
+          </>
       }
 
-
-      
-      <View style={styles.footer}>
-        <ButtonIcon title="Entrar na Partida"/>
-      </View>
+      {
+        guildSelected.guild.owner &&
+        <View style={styles.footer}>
+          <ButtonIcon
+            title="Entrar na partida"
+            onPress={handleOpenGuild}
+          />
+        </View>
+      }
     </Background>
-  )
-};
+  );
+}
