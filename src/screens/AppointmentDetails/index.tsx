@@ -50,6 +50,7 @@ export function AppointmentDetails() {
   async function fetchGuildWidget() {
     try {
       const response = await api.get(`/guilds/${guildSelected.guild.id}/widget.json`);
+      console.log(response.data);
       setWidget(response.data);
     } catch {
       Alert.alert('Verifique as configurações do servidor. Será que o widget está habilitado ?');
@@ -128,12 +129,16 @@ export function AppointmentDetails() {
         </>
       }
 
-      <View style={styles.footer}>
-        <ButtonIcon 
-          title="Entrar na Partida"
-          onPress={handleOpenGuild}
-        />
-      </View>
+      {
+        guildSelected.guild.owner && //Esconde o botão de convite caso não seja o dono
+        <View style={styles.footer}>
+          <ButtonIcon 
+            title="Entrar na Partida"
+            onPress={handleOpenGuild}
+          />
+        </View>
+
+      }
     </Background>
   )
 };
