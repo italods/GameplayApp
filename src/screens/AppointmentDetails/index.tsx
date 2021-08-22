@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { BorderlessButton } from 'react-native-gesture-handler'
 import { Fontisto } from '@expo/vector-icons';
-
 import { useRoute } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
+
 import { 
   ImageBackground, 
   Text, 
   View,
   Alert,
-  FlatList
+  FlatList,
+  Share,
+  Platform
 } from 'react-native';
 
 import { styles } from './styles';
@@ -55,6 +58,21 @@ export function AppointmentDetails() {
     }
   }
 
+  function handleShareInvitation(){
+    const message = Platform.OS === 'ios' ?
+    `Junte-se a ${guildSelected.guild.name}`
+    : widget.instant_invite
+  
+    Share.share({
+      message,
+      url: widget.instant_invite
+    });
+  }
+
+  function handleOpenGuild(){
+    Linking.openURL(widget.instant_invite);
+  }
+
   useEffect (() => {
     fetchGuildWidget();
   },[]);
@@ -64,7 +82,8 @@ export function AppointmentDetails() {
       <Header
         title="Detalhes"
         action={
-          <BorderlessButton>
+          guildSelected.guild.owner && //Esconde o botão de convite caso não seja o dono
+          <BorderlessButton onPress={handleShareInvitation}>
             <Fontisto
               name="share"
               size={24}
@@ -109,10 +128,11 @@ export function AppointmentDetails() {
         </>
       }
 
-
-      
       <View style={styles.footer}>
-        <ButtonIcon title="Entrar na Partida"/>
+        <ButtonIcon 
+          title="Entrar na Partida"
+          onPress={handleOpenGuild}
+        />
       </View>
     </Background>
   )
