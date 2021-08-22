@@ -110,30 +110,22 @@ export function AppointmentDetails() {
       {
         
         loading ? <Load /> :
-          <>
-            <ListHeader
-              title="Jogadores"
-              subtitle={`Total ${widget.members.length ? widget.members.length : 0}`}
-            />
-            {
-              <FlatList
-                data={widget.members ? widget.members : []} // UPDATE 1# Bom cuidar aqui, caso não encontre um Widget automaticamente não haverá membros.
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => (
-                  <Member data={item} />
-                )}
-                ItemSeparatorComponent={() => <ListDivider isCentered />}
-                style={styles.members}
-                ListEmptyComponent={() => ( // UPDATE 2#  Um propriedade para renderizar algo quando a lista e vázia.
-                  <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>
-                      Não há ninguém online agora.
-                    </Text>
-                  </View>
-                )}
-              />
-            }
-          </>
+        <>
+          <ListHeader 
+            title="Jogadores"
+            subtitle={`Total ${widget.members.length}`}
+          />
+
+          <FlatList
+            data={widget.members}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <Member data={item}/>
+            )}
+            ItemSeparatorComponent={()=> <ListDivider isCentered />}
+            style={styles.members}
+          />
+        </>
       }
 
       {

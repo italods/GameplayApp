@@ -16,7 +16,7 @@ const { CDN_IMAGE } = process.env;
 const { REDIRECT_URI } = process.env;
 const { RESPONSE_TYPE } = process.env;
 
-import { api } from '../service/api';
+import { api } from '../services/api';
 import { COLLECTION_USERS } from '../configs/database';
 
 type User = {
