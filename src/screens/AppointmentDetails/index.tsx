@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import { styles } from './styles';
-import { api } from '../../service/api';
+import { api } from '../../services/api';
 import { theme } from '../../global/styles/theme';
 
 import BannerImg from '../../assets/banner.png';
